@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mju.dao.MovieDao">
+
+    <resultMap id="movie" type="Movie">
+        <id property="movieId" column="movieId"/>
+        <result property="movieName" column="movieName"/>
+        <result property="info" column="info"/>
+        <result property="pic" column="pic"/>
+    </resultMap>
+
+    <select id="queryMovie" resultMap="movie" parameterType="map">
+        SELECT
+        *
+        FROM
+        t_movie
+        <where>
+            <if test="movieName != null">
+                AND movieName like '%${movieName}%'
+            </if>
+            <if test="info != null">
+                AND info LIKE '%${info}%'
+            </if>
+        </where>
+        limit #{offset},#{perPage}
+    </select>
+
+    <select id="selectMovieById" resultMap="movie" parameterType="int">
+        SELECT *
+        FROM t_movie
+        WHERE movieId = #{movieId} limit 1
+    </select>
+
+    <select id="countOfMovie" resultType="int" parameterType="map">
+        SELECT COUNT(1)
+        FROM t_movie
+        <where>
+            <if test="movieName != null">
+                AND movieName like '%${movieName}%'
+            </if>
+            <if test="info != null">
+                AND info LIKE '%${info}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertMovie" parameterType="movie">
+      INSERT INTO `t_movie` (`movieName`, `info`, `pic`)
+       VALUES (#{movieName}, #{info}, #{pic});
+
+    </insert>
+
+    <delete id="deleteMovieById" parameterType="int">
+        DELETE FROM t_movie
+        WHERE movieId = #{movieId}
+    </delete>
+
+    <update id="updateMovie" parameterType="movie">
+        UPDATE `t_movie`
+        SET
+         `movieName` = #{movieName},
+         `info` = #{info},
+         `pic` = #{pic}
+        WHERE
+            `movieId` = #{movieId}
+
+    </update>
+</mapper>

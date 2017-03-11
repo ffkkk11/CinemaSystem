@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title>统一异常处理</title>
+</head>
+<body>
+<div align="center">
+    <h1>Error Handler</h1>
+    <div th:text="${url}"></div>
+    <div th:text="${exception.message}"></div>
+    <div><a th:href="@{/}">返回首页</a></div>
+</div>
+</body>
+</html>

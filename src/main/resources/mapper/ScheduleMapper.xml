@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mju.dao.ScheduleDao">
+
+    <resultMap id="schedule" type="Schedule">
+        <id property="scheduleId" column="scheduleId"/>
+        <result property="roomId" column="roomId"/>
+        <result property="roomName" column="roomName"/>
+        <result property="movieId" column="movieId"/>
+        <result property="movieName" column="movieName"/>
+        <result property="beginTime" column="beginTime"/>
+        <result property="endTime" column="endTime"/>
+        <result property="price" column="price"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="querySchedule" resultMap="schedule" parameterType="map">
+        select s.*,m.movieName,r.roomName
+        from t_schedule as s
+        left JOIN t_movie as m on s.movieId = m.movieId
+        left JOIN t_room as r on r.roomId = s.roomId
+        <where>
+            <if test="roomName != null">
+                AND roomName like '%${roomName}%'
+            </if>
+            <if test="movieName != null">
+                AND movieName LIKE '%${movieName}%'
+            </if>
+        </where>
+        limit #{offset},#{perPage}
+
+    </select>
+
+    <select id="selectScheduleById" resultMap="schedule" parameterType="int">
+        select s.*,m.movieName,r.roomName
+        from t_schedule as s
+        left JOIN t_movie as m on s.movieId = m.movieId
+        left JOIN t_room as r on r.roomId = s.roomId
+        where scheduleId = #{scheduleId} limit 1
+    </select>
+
+    <select id="countOfSchedule" resultType="int" parameterType="map">
+        SELECT COUNT(1)
+        FROM t_schedule
+        <where>
+            <if test="roomName != null">
+                AND roomName like '%${roomName}%'
+            </if>
+            <if test="movieName != null">
+                AND movieName LIKE '%${movieName}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSchedule" parameterType="schedule">
+        insert into t_schedule(scheduleId,roomId,movieId,beginTime,endTime,price,status)
+        values(#{scheduleId},#{roomId},#{movieId},#{beginTime},#{endTime},#{price},#{status})
+    </insert>
+
+    <delete id="deleteSchedule" parameterType="int">
+        delete from t_schedule where scheduleId = #{scheduleId}
+    </delete>
+
+    <update id="updateSchedule" parameterType="schedule">
+        UPDATE `t_schedule`
+        SET
+         `movieId` = #{movieId},
+         `beginTime` = #{beginTime},
+         `endTime` = #{endTime},
+         `price` = #{price},
+         `status` = #{status},
+         `roomId` = #{roomId}
+        WHERE
+            `scheduleId` = #{scheduleId}
+    </update>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mju.dao.OrderDao">
+
+    <resultMap id="order" type="Order">
+        <id property="orderId" column="orderId"/>
+        <result property="userId" column="userId"/>
+        <result property="orderStatus" column="orderStatus"/>
+        <result property="createTime" column="createTime"/>
+        <result property="seats" column="seats"/>
+        <result property="scheduleId" column="scheduleId"/>
+        <result property="roomId" column="roomId"/>
+        <result property="roomName" column="roomName"/>
+        <result property="movieId" column="movieId"/>
+        <result property="movieName" column="movieName"/>
+        <result property="beginTime" column="beginTime"/>
+        <result property="endTime" column="endTime"/>
+        <result property="price" column="price"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="queryOrder" resultMap="order" parameterType="map">
+        select o.*,s.*,r.roomName,m.movieName
+        from t_order as o
+        left JOIN t_schedule as s on o.scheduleId = s.scheduleId
+        left JOIN t_room as r on s.roomId = r.roomId
+        left join t_movie as m on s.movieId = m.movieId
+        <where>
+            <if test="movieName != null">
+                AND movieName like '%${movieName}%'
+            </if>
+            <if test="userId != null">
+                AND userId LIKE '%${userId}%'
+            </if>
+            <if test="status != null">
+                AND status = '%${status}%'
+            </if>
+        </where>
+        limit #{offset},#{perPage}
+
+    </select>
+
+    <select id="selectOrderById" resultMap="order" parameterType="string">
+        select o.*,s.*,r.roomName,m.movieName
+        from t_order as o
+        left JOIN t_schedule as s on o.scheduleId = s.scheduleId
+        left JOIN t_room as r on s.roomId = r.roomId
+        left join t_movie as m on s.movieId = m.movieId
+        where o.orderId = #{orderId} limit 1
+    </select>
+
+    <select id="countOfOrder" resultType="int" parameterType="map">
+        SELECT COUNT(1)
+        FROM t_order
+        <where>
+            <if test="movieName != null">
+                AND movieName like '%${movieName}%'
+            </if>
+            <if test="userId != null">
+                AND userId LIKE '%${userId}%'
+            </if>
+            <if test="status != null">
+                AND status = '%${status}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertOrder" parameterType="order">
+        insert into t_order(orderId,userId,orderStatus,createTime,seats,scheduleId)
+        values(#{orderId},#{userId},#{orderStatus},#{createTime},#{seats},#{scheduleId})
+    </insert>
+
+    <delete id="deleteOrderById" parameterType="string">
+        delete from t_order where orderId = #{orderId}
+    </delete>
+
+    <update id="updateOrderStatus" parameterType="order">
+        update t_order set orderStatus = #{orderStatus} where orderId = #{orderId}
+    </update>
+
+    <update id="updateOrder" parameterType="order">
+        UPDATE `t_order`
+        SET
+         `userId` = #{userId},
+         `orderStatus` = #{orderStatus},
+         `seats` = #{seats},
+         `scheduleId` = #{scheduleId}
+        WHERE
+		`orderId` = #{orderId}
+
+    </update>
+</mapper>

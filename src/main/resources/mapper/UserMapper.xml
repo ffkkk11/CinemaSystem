@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mju.dao.UserDao">
+
+    <resultMap id="user" type="User">
+        <id property="userId" column="userId"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="mobile" column="mobile"/>
+        <result property="role" column="role"/>
+    </resultMap>
+
+    <select id="queryUser" resultMap="user" parameterType="map">
+        SELECT
+          *
+        FROM
+          t_user
+        <where>
+            <if test="username != null">
+                AND username like '%${username}%'
+            </if>
+            <if test="mobile != null">
+              AND mobile LIKE '%${mobile}%'
+            </if>
+        </where>
+        limit #{offset},#{perPage}
+    </select>
+
+    <select id="getUserByUsername" resultMap="user" parameterType="string">
+        SELECT *
+        FROM t_user
+        WHERE username = #{username}
+        limit 1
+    </select>
+
+    <select id="getUserById" resultMap="user" parameterType="string">
+        SELECT *
+        FROM t_user
+        WHERE userId = #{userId}
+        limit 1
+    </select>
+
+    <select id="countOfUser" resultType="int" parameterType="map">
+        SELECT COUNT(1)
+        FROM t_user
+        <where>
+            <if test="username != null">
+                AND username like '%${username}%'
+            </if>
+            <if test="mobile != null">
+                AND mobile LIKE '%${mobile}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="addUser" parameterType="user">
+        INSERT INTO t_user(userId,username,password,mobile,role)
+         VALUES (#{userId},#{username},#{password},#{mobile},#{role})
+    </insert>
+
+    <delete id="delUser" parameterType="string">
+        DELETE
+        FROM t_user
+        WHERE userId =#{userId}
+    </delete>
+
+
+    <update id="updateUser" parameterType="user">
+        UPDATE `t_user`
+        SET
+         `username` = #{username},
+         `password` = #{password},
+         `mobile` = #{mobile},
+         `role` = #{role}
+        WHERE
+		`userId` = #{userId}
+    </update>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mju.dao.CinemaDao">
+
+    <resultMap id="cinema" type="Cinema">
+        <id property="cinemaId" column="cinemaId"/>
+        <result property="cinemaName" column="cinemaName"/>
+        <result property="address" column="address"/>
+        <result property="tel" column="tel"/>
+        <result property="info" column="info"/>
+    </resultMap>
+
+    <select id="queryCinema" resultMap="cinema" parameterType="map">
+        SELECT
+          *
+        FROM
+          t_cinema
+        <where>
+            <if test="cinemaName != null">
+                AND cinemaName like '%${cinemaName}%'
+            </if>
+            <if test="address != null">
+              AND address LIKE '%${address}%'
+            </if>
+        </where>
+        ORDER by cinemaId desc
+        limit #{offset},#{perPage}
+    </select>
+
+    <select id="selectCinemaById" resultMap="cinema" parameterType="int">
+        SELECT *
+        FROM t_cinema
+        WHERE cinemaId = #{cinemaId} limit 1
+    </select>
+
+    <select id="countOfCinema" resultType="int" parameterType="map">
+        SELECT COUNT(1)
+        FROM t_cinema
+        <where>
+            <if test="cinemaName != null">
+                AND cinemaName like '%${cinemaName}%'
+            </if>
+            <if test="address != null">
+                AND address LIKE '%${address}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertCinema" parameterType="cinema">
+        INSERT INTO `t_cinema` (`cinemaId`, `cinemaName`, `address`, `tel`, `info`) VALUES (#{cinemaId}, #{cinemaName}, #{address}, #{tel}, #{info});
+    </insert>
+
+    <delete id="deleteCinemaById" parameterType="int">
+        DELETE FROM t_cinema
+        WHERE cinemaId = #{cinemaId}
+    </delete>
+
+    <update id="updateCinema" parameterType="cinema">
+        UPDATE `cinema`.`t_cinema`
+        SET
+        `cinemaName` = #{cinemaName},
+        `address` = #{address},
+        `tel` = #{tel},
+        `info` =  #{info}
+        WHERE
+        `cinemaId` = #{cinemaId}
+    </update>
+</mapper>

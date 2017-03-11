@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mju.dao.RoomDao">
+
+    <resultMap id="room" type="Room">
+        <id property="roomId" column="roomId"/>
+        <result property="roomName" column="roomName"/>
+        <result property="tmplId" column="tmplId"/>
+        <result property="tmplName" column="tmplName"/>
+        <result property="totalSeat" column="totalSeat"/>
+        <result property="seatMap" column="seatMap"/>
+        <result property="cinemaId" column="cinemaId"/>
+        <result property="cinemaName" column="cinemaName"/>
+
+    </resultMap>
+
+    <select id="queryRoom" resultMap="room" parameterType="map">
+        select r.roomId,r.roomName,t.*,r.cinemaId,c.cinemaName
+        from t_room as r left join t_tmpl as t on r.tmplId = t.tmplId LEFT JOIN t_cinema as c on r.cinemaId = c.cinemaId
+        <where>
+            <if test="roomName != null">
+                AND roomName like '%${roomName}%'
+            </if>
+            <if test="tmplName != null">
+                AND tmplName LIKE '%${tmplName}%'
+            </if>
+            <if test="cinemaName != null">
+                AND cinemaName LIKE '%${cinemaName}%'
+            </if>
+        </where>
+        limit #{offset},#{perPage}
+
+    </select>
+
+    <select id="selectRoomById" resultMap="room" parameterType="int">
+        select r.roomId,r.roomName,t.*,c.cinemaName,r.cinemaId
+        from t_room as r left join t_tmpl as t on r.tmplId = t.tmplId left join t_cinema as c on r.cinemaId = c.cinemaId
+        where r.roomId = #{roomId} limit 1
+    </select>
+
+    <select id="countOfRoom" resultType="int" parameterType="map">
+        SELECT COUNT(1)
+        FROM t_room
+        <where>
+            <if test="roomName != null">
+                AND roomName like '%${roomName}%'
+            </if>
+            <if test="tmplName != null">
+                AND tmplName LIKE '%${tmplName}%'
+            </if>
+            <if test="cinemaName != null">
+                AND cinemaName LIKE '%${cinemaName}%'
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertRoom" parameterType="room">
+        insert into t_room(roomName,tmplId,cinemaId)
+        values(#{roomName},#{tmplId},#{cinemaId})
+    </insert>
+
+    <delete id="deleteRoomById" parameterType="int">
+        delete from t_room where roomId = #{roomId}
+    </delete>
+
+    <update id="updateRoom" parameterType="room">
+        UPDATE `t_room`
+        SET
+         `roomName` = #{roomName},
+         `tmplId` = #{tmplId},
+         `cinemaId` = #{cinemaId}
+        WHERE
+            `roomId` = #{roomId}
+
+    </update>
+</mapper>
