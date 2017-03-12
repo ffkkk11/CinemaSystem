@@ -12,10 +12,14 @@ public class Schedule implements Serializable {
     protected String roomName;        //影厅名称
     protected String movieId;         //影片
     protected String movieName;       //影片名称
+    protected String movieInfo;         //影片介绍
     protected Timestamp beginTime;    //开始时间
-    protected Timestamp endTime;      //结束时间
+    protected String bTime;         //人性化显示开始时间
     protected Double price;           //单价
     protected Boolean status;         //上架、下架
+    protected String cinemaId;          //影院
+    protected String cinemaName;        //影院
+    protected String moviePic;          //影片宣传图
 
     public Integer getScheduleId() {
         return scheduleId;
@@ -71,15 +75,6 @@ public class Schedule implements Serializable {
         return this;
     }
 
-    public Timestamp getEndTime() {
-        return endTime;
-    }
-
-    public Schedule setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
-        return this;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -95,6 +90,51 @@ public class Schedule implements Serializable {
 
     public Schedule setStatus(Boolean status) {
         this.status = status;
+        return this;
+    }
+
+    public String getCinemaId() {
+        return cinemaId;
+    }
+
+    public Schedule setCinemaId(String cinemaId) {
+        this.cinemaId = cinemaId;
+        return this;
+    }
+
+    public String getCinemaName() {
+        return cinemaName;
+    }
+
+    public Schedule setCinemaName(String cinemaName) {
+        this.cinemaName = cinemaName;
+        return this;
+    }
+
+    public String getbTime() {
+        return bTime;
+    }
+
+    public Schedule setbTime(String bTime) {
+        this.bTime = bTime;
+        return this;
+    }
+
+    public String getMoviePic() {
+        return moviePic;
+    }
+
+    public Schedule setMoviePic(String moviePic) {
+        this.moviePic = moviePic;
+        return this;
+    }
+
+    public String getMovieInfo() {
+        return movieInfo;
+    }
+
+    public Schedule setMovieInfo(String movieInfo) {
+        this.movieInfo = movieInfo;
         return this;
     }
 }

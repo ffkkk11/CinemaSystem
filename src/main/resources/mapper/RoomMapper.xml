@@ -27,6 +27,9 @@
             <if test="cinemaName != null">
                 AND cinemaName LIKE '%${cinemaName}%'
             </if>
+            <if test="cinemaId != null">
+                AND c.cinemaId LIKE '%${cinemaId}%'
+            </if>
         </where>
         limit #{offset},#{perPage}
 
@@ -40,16 +43,19 @@
 
     <select id="countOfRoom" resultType="int" parameterType="map">
         SELECT COUNT(1)
-        FROM t_room
+        from t_room as r left join t_tmpl as t on r.tmplId = t.tmplId LEFT JOIN t_cinema as c on r.cinemaId = c.cinemaId
         <where>
             <if test="roomName != null">
-                AND roomName like '%${roomName}%'
+                AND r.roomName like '%${roomName}%'
             </if>
             <if test="tmplName != null">
-                AND tmplName LIKE '%${tmplName}%'
+                AND t.tmplName LIKE '%${tmplName}%'
             </if>
             <if test="cinemaName != null">
-                AND cinemaName LIKE '%${cinemaName}%'
+                AND c.cinemaName LIKE '%${cinemaName}%'
+            </if>
+            <if test="cinemaId != null">
+                AND c.cinemaId LIKE '%${cinemaId}%'
             </if>
         </where>
     </select>

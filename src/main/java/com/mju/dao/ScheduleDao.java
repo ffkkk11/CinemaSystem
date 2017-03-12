@@ -18,6 +18,8 @@ public interface ScheduleDao {
 
     List<Schedule> querySchedule(Map<String, Object> map);
 
+    List<Schedule> queryNewSchedule();
+
     Integer countOfSchedule(Map<String, Object> map);
 
     Integer insertSchedule(Schedule schedule);

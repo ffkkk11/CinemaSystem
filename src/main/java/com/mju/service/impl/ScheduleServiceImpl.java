@@ -50,6 +50,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public List<Schedule> queryNewList() {
+        return scheduleDao.queryNewSchedule();
+    }
+
+    @Override
     @Transactional
     public boolean saveSchedule(Schedule schedule) {
         return scheduleDao.insertSchedule(schedule) > 0;
