@@ -17,14 +17,17 @@
         <result property="endTime" column="endTime"/>
         <result property="price" column="price"/>
         <result property="status" column="status"/>
+        <result property="username" column="username"/>
     </resultMap>
 
     <select id="queryOrder" resultMap="order" parameterType="map">
-        select o.*,s.*,r.roomName,m.movieName
+        select o.*,s.*,r.roomName,m.movieName,c.cinemaId,c.cinemaName,m.info as movieInfo,m.pic as moviePic,DATE_FORMAT(s.beginTime,'%Y-%m-%d %H:%i') as bTime,u.username
         from t_order as o
         left JOIN t_schedule as s on o.scheduleId = s.scheduleId
         left JOIN t_room as r on s.roomId = r.roomId
         left join t_movie as m on s.movieId = m.movieId
+        LEFT JOIN t_cinema AS c ON c.cinemaId = r.cinemaId
+        LEFT JOIN t_user AS u ON u.userId = o.userId
         <where>
             <if test="movieName != null">
                 AND movieName like '%${movieName}%'
@@ -42,11 +45,13 @@
     </select>
 
     <select id="selectOrderById" resultMap="order" parameterType="string">
-        select o.*,s.*,r.roomName,m.movieName
+        select o.*,s.*,r.roomName,m.movieName,c.cinemaId,c.cinemaName,m.info as movieInfo,m.pic as moviePic,DATE_FORMAT(s.beginTime,'%Y-%m-%d %H:%i') as bTime,u.username
         from t_order as o
         left JOIN t_schedule as s on o.scheduleId = s.scheduleId
         left JOIN t_room as r on s.roomId = r.roomId
         left join t_movie as m on s.movieId = m.movieId
+        LEFT JOIN t_cinema AS c ON c.cinemaId = r.cinemaId
+        LEFT JOIN t_user AS u ON u.userId = o.userId
         where o.orderId = #{orderId} limit 1
     </select>
 

@@ -211,30 +211,26 @@ function infoOrder(id) {
                 var orderId = data.orderId;
                 var scheduleId = data.scheduleId;
                 var userId = data.userId;
-                var userName = data.userName;
+                var username = data.username;
                 var movieName = data.movieName;
                 var orderStatus = data.orderStatus;
                 var seats = data.seats;
-
-
-                //TODO lalaa
-                $("#update_roomId option").remove();
-                $("#update_roomId").append("<option value=" + roomId +
-                    ">" + roomName + "</option>");
-
-                $("#update_cinemaId option").remove();
-                $("#update_cinemaId").append("<option value=" + cinemaId +
-                    ">" + cinemaName + "</option>");
-
-                $("#update_movieId option").remove();
-                $("#update_movieId").append("<option value=" + movieId +
-                    ">" + movieName + "</option>");
+                var cinemaName = data.cinemaName;
+                var roomName = data.roomName;
+                var bTime = data.bTime;
 
                 $("#update_orderId").val(orderId);
-                $("#update_price").val(price);
-                $("#update_status").val(status);
-                $("#update_beginTime").val(new Date(beginTime).Format("yyyy-MM-ddThh:mm:ss"));
+                $("#update_scheduleId option").remove();
+                $("#update_scheduleId").append("<option value='" + scheduleId +"'>" + cinemaName + "," + roomName + ","+ movieName + ","+ bTime +"</option>");
 
+                $("#update_userId option").remove();
+                $("#update_userId").append(
+                    "<option value='" + userId + "'>" + username +"</option>"
+                );
+
+                $("#update_seats").val(seats);
+
+                $("#update_orderStatus").val(orderStatus);
 
             }else{
                 swal(result.repMsg, "", "error");
@@ -335,29 +331,27 @@ function addOrder() {
 // 更新
 function updateOrder() {
     var orderId =  $("#update_orderId").val();
-    var roomId = $("#update_roomId").val();
-    var beginTime = new Date($("#update_beginTime").val().replace('T',' ').replace('-','/')).getTime();
-    var movieId = $("#update_movieId").val();
+    var scheduleId = $("#update_scheduleId").val();
+    var userId =  $("#update_userId").val();
+    var seats = $("#update_seats").val();
+    var orderStatus = $("#update_orderStatus").val();
 
-    var price =  $("#update_price").val();
-    var status = $("#update_status").val();
-
-    status = status == 1 ? true : false;
-
-    if(roomId == null ||  roomId == "" || roomId == "-1") {
-        swal("请选择影厅！", "", "error");
+    if(scheduleId == null ||  scheduleId == "" || scheduleId == "-1") {
+        swal("请选择排片计划！", "", "error");
         return;
     }
-    if(beginTime == null || beginTime == "" ) {
-        swal("请选择播放时间！", "", "error");
+
+
+    if(orderId == null ||  orderId == "" ) {
+        swal("ID错误！", "", "error");
         return;
     }
-    if(price == null || price == ""){
-        swal("请输入价格！", "", "error");
+    if(userId == null || userId == "" ) {
+        swal("请选择用户！", "", "error");
         return;
     }
-    if( movieId == null || movieId == "-1") {
-        swal("请选择要播放的影片！", "", "error");
+    if(seats == null || seats == ""){
+        swal("请输入选座！", "", "error");
         return;
     }
     var params = "/"+orderId;
@@ -367,11 +361,11 @@ function updateOrder() {
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify({
-            "roomId" : roomId,
-            "beginTime" : beginTime,
-            "movieId" : movieId,
-            "price" : price,
-            "status" : status
+            "orderId" : orderId,
+            "scheduleId" : scheduleId,
+            "userId" : userId,
+            "seats" : seats,
+            "orderStatus" : orderStatus
         }),
         success: function (result) {
             if (result.repCode == "1") {
@@ -399,7 +393,7 @@ function updateOrder() {
 
 //清空内容
 function clean() {
-    $("#search_order_name").val("");
+    // $("#search_order_name").val("");
 }
 
 //添加时显示影院下面的影厅
