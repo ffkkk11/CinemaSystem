@@ -9,4 +9,13 @@ public abstract class Const {
     public static final int SUCCESS = 1;
     public static final int FAILED = -1;
 
+    public static final int ORDER_STATUS_W = 1;//待付款
+    public static final int ORDER_STATUS_Y = 2;// 已付款
+    public static final int ORDER_STATUS_C = 3;//已关闭
+    public static final int ORDER_STATUS_E = 4;//错误
+
+    public static final String ROLE_USER = "USER";
+    public static final String ROLE_ADMIN = "ADMIN";
+
+
 }

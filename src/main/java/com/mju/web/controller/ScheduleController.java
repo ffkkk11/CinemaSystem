@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,6 +67,25 @@ public class ScheduleController {
         return rep;
     }
 
+    @GetMapping("/new")
+    public RepMessage getNewSchedule() {
+        RepMessage rep = new RepMessage();
+        Map<String, Object> content = new HashMap<>();
+        try {
+            List<Schedule> scheduleList = scheduleService.queryNewList();
+            if (scheduleList != null && scheduleList.size() >0) {
+                content.put("scheduleInfo", scheduleList);
+                rep.setContent(content);
+                rep.setStatus(ExceptionMsg.SUCCESS);
+            }else {
+                rep.setStatus(ExceptionMsg.FAILED);
+            }
+
+        } catch (Exception e) {
+            rep.setStatus(ExceptionMsg.EXCEPTION);
+        }
+        return rep;
+    }
 
     @PutMapping("/{scheduleId}")
     public RepMessage putSchedule(@Valid @RequestBody Schedule schedule, BindingResult result,@PathVariable Integer scheduleId) {

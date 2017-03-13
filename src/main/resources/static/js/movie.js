@@ -68,6 +68,8 @@ function queryMovieList() {
                     var movieInfo = movieData[i].info;
                     var id = "\"" + movieId + "\"";
 
+                    movieInfo = movieInfo.substring(0, 40) + "...";
+
                     //序号
                     var j = (currentPage - 1) * pageSize + i + 1;
 

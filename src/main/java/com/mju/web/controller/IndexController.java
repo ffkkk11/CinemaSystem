@@ -8,10 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +22,8 @@ public class IndexController {
     private ScheduleService scheduleService;
 
     @RequestMapping("/")
-    public String home() {
-        return "index";
+    public String home(Model model) {
+        return this.newMovie(model);
     }
 
     @RequestMapping("/login")
@@ -74,6 +71,11 @@ public class IndexController {
     @RequestMapping("/schedule_list")
     public String schedule() {
         return "/schedule/schedule_list";
+    }
+
+    @RequestMapping("/order_list")
+    public String order() {
+        return "/order/order_list";
     }
 
     @RequestMapping("/new_movie")

@@ -7,7 +7,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>H</b>ua</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>系统</b></span>
+        <span class="logo-lg"><b>电影网上订票系统</b></span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -46,6 +46,14 @@
                         </li>
                     </ul>
                 </li>
+                <li class="dropdown user user-menu" sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}">登陆</a>
+                </li>
+                <li class="dropdown user user-menu" sec:authorize="isAnonymous()">
+                    <a href="#">注册</a>
+                </li>
+
+
 
             </ul>
         </div>
