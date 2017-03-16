@@ -1,0 +1,58 @@
+<!-- 弹窗显示 -->
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="payMethod" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="false" th:fragment="payMethod">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title text-center">
+                    <strong>选择支付方式</strong>
+                </h4>
+            </div>
+            <div class="modal-body" style="height:300px">
+                <div class="col-sm-12">
+                    <form class="form-horizontal">
+                        <div class="box-body">
+                            <div class="col-md-12">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">支付宝支付</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <div class="col-md-12">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">二维码支付</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal" style="margin-right:10px">关闭
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+<!-- /.modal -->
+

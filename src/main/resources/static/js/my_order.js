@@ -76,7 +76,7 @@ function queryOrderList() {
                         case 1:
                             orderStatus = "待付款";
                             option += "<button type='button' class='btn btn-primary' style='margin-left:5px' " +
-                                "onclick=infoOrder(" + id + ")>" +
+                                "onclick=payShow(" + id + ")>" +
                                 "<i class='fa fa-edit'>支付</i></button>" +
 
                                 "<button type='button' class='btn  btn-danger' style='margin-left:5px' " +
@@ -207,6 +207,10 @@ function updateOrder() {
 
 }
 
+// 显示支付页面
+function payShow(id) {
+    $("#payMethod").modal('show');
+}
 
 // 关闭订单
 function closeOrder(id) {
