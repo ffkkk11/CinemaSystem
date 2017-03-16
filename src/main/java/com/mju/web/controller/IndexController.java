@@ -5,6 +5,8 @@ import com.mju.model.entity.Schedule;
 import com.mju.model.entity.User;
 import com.mju.service.OrderService;
 import com.mju.service.ScheduleService;
+import com.mju.service.UserService;
+import com.mju.util.Const;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,10 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -34,6 +33,9 @@ public class IndexController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/")
     public String home(Model model) {
@@ -114,6 +116,39 @@ public class IndexController {
     @GetMapping("/register")
     public String register() {
         return "/register";
+    }
+
+    @PostMapping("/register")
+    public String doRegister(User user,Model model) {
+        if (user == null) {
+            model.addAttribute("errorMsg", "请输入账号信息");
+            return "/register";
+        }
+
+        String username = user.getUsername();
+        String password = user.getPassword();
+
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            model.addAttribute("errorMsg", "账号及密码不能为空");
+            return "/register";
+        }
+
+        User u = userService.getUserByUsername(username);
+        if (u != null) {
+            model.addAttribute("errorMsg", "账号已存在");
+            return "/register";
+        }
+
+
+        user.setRole(Const.ROLE_USER);
+        if (userService.saveUser(user)) {
+            return "/login";
+        }else {
+            model.addAttribute("errorMsg", "添加失败");
+            return "/register";
+        }
+
+
     }
 
     @RequestMapping("/buy/seat/{scheduleId}")

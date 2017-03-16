@@ -31,19 +31,19 @@
 <body class="hold-transition register-page">
 <div class="register-box">
   <div class="register-logo">
-    <a href="/new_movie"><b>电影网上订票</b>系统</a>
+    <a href="/new_movie"><b>注册</b>用户</a>
   </div>
 
   <div class="register-box-body">
-    <p class="login-box-msg">注册账号</p>
+    <p class="login-box-msg" th:text="${errorMsg}"></p>
 
     <form action="/register" method="post">
       <div class="form-group has-feedback">
-        <input id="username" type="text" class="form-control" placeholder="用户名"/>
+        <input name="username" id="username" type="text" class="form-control" placeholder="用户名"/>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input id="password" type="password" class="form-control" placeholder="密码"/>
+        <input name="password" id="password" type="password" class="form-control" placeholder="密码"/>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
 
