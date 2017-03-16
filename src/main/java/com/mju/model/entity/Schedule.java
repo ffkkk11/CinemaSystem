@@ -20,6 +20,7 @@ public class Schedule implements Serializable {
     protected String cinemaId;          //影院
     protected String cinemaName;        //影院
     protected String moviePic;          //影片宣传图
+    protected String seatMap;     //座位分布图
 
     public Integer getScheduleId() {
         return scheduleId;
@@ -135,6 +136,15 @@ public class Schedule implements Serializable {
 
     public Schedule setMovieInfo(String movieInfo) {
         this.movieInfo = movieInfo;
+        return this;
+    }
+
+    public String getSeatMap() {
+        return seatMap;
+    }
+
+    public Schedule setSeatMap(String seatMap) {
+        this.seatMap = seatMap;
         return this;
     }
 }

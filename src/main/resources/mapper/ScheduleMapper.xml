@@ -13,6 +13,7 @@
         <result property="price" column="price"/>
         <result property="status" column="status"/>
         <result property="moviePic" column="moviePic"/>
+        <result property="seatMap" column="seatMap"/>
     </resultMap>
 
     <select id="queryNewSchedule" resultMap="schedule">
@@ -26,11 +27,12 @@
     </select>
 
     <select id="querySchedule" resultMap="schedule" parameterType="map">
-        select s.*,m.movieName,r.roomName,c.cinemaId,c.cinemaName,DATE_FORMAT(s.beginTime,'%Y-%m-%d %H:%i') as bTime,m.pic as moviePic,m.info as movieInfo
+        select s.*,m.movieName,r.roomName,c.cinemaId,c.cinemaName,DATE_FORMAT(s.beginTime,'%Y-%m-%d %H:%i') as bTime,m.pic as moviePic,m.info as movieInfo,t.seatMap
         from t_schedule as s
         left JOIN t_movie as m on s.movieId = m.movieId
         left JOIN t_room as r on r.roomId = s.roomId
         LEFT JOIN t_cinema as c on c.cinemaId = r.cinemaId
+        LEFT JOIN t_tmpl as t on t.tmplId = r.tmplId
         <where>
             <if test="roomName != null">
                 AND roomName like '%${roomName}%'
@@ -48,11 +50,12 @@
     </select>
 
     <select id="selectScheduleById" resultMap="schedule" parameterType="int">
-        select s.*,m.movieName,r.roomName,c.cinemaId,c.cinemaName,DATE_FORMAT(s.beginTime,'%Y-%m-%d %H:%i') as bTime,m.pic as moviePic,m.info as movieInfo
+        select s.*,m.movieName,r.roomName,c.cinemaId,c.cinemaName,DATE_FORMAT(s.beginTime,'%Y-%m-%d %H:%i') as bTime,m.pic as moviePic,m.info as movieInfo,t.seatMap
         from t_schedule as s
         left JOIN t_movie as m on s.movieId = m.movieId
         left JOIN t_room as r on r.roomId = s.roomId
         LEFT JOIN t_cinema as c on c.cinemaId = r.cinemaId
+        LEFT JOIN t_tmpl as t on t.tmplId = r.tmplId
         where scheduleId = #{scheduleId} limit 1
     </select>
 

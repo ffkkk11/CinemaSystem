@@ -14,9 +14,11 @@ import java.util.Optional;
 public interface OrderService {
     Order getOrderById(String orderId);
 
+    List<Order> queryOrderByScheduleId(Integer scheduleId);
+
     PageBean<Order> queryOrder(Map<String, Object> fields);
 
-    boolean saveOrder(Order order);
+    Order saveOrder(Order order);
 
     boolean modifyOrderOnStatusById(Order order);
 

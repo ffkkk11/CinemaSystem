@@ -10,6 +10,7 @@ var resourceUrl = "/order";
 $("#addOrder").on('hide.bs.modal', function () {
     // 执行一些动作...
     $("#add_seats").val("");
+    $("#add_amount").val("");
 });
 
 //添加订单模态层显示事件
@@ -130,19 +131,36 @@ function queryOrderList() {
                 $("#order_info tbody tr").remove();
 
                 for (var i = 0; i < orderData.length; i++) {
+
                     var orderId = orderData[i].orderId;
-                    var beginTime = orderData[i].beginTime;
-                    var roomId = orderData[i].roomId;
-                    var roomName = orderData[i].roomName;
-                    var cinemaId = orderData[i].cinemaId;
-                    var cinemaName = orderData[i].cinemaName;
-                    var movieId = orderData[i].movieId;
+                    var scheduleId = orderData[i].scheduleId;
+                    var userId = orderData[i].userId;
+                    var username = orderData[i].username;
                     var movieName = orderData[i].movieName;
-                    var price = orderData[i].price;
-                    var status =  orderData[i].status ;
+                    var orderStatus = orderData[i].orderStatus;
+                    var seats = orderData[i].seats;
+                    var cinemaName = orderData[i].cinemaName;
+                    var roomName = orderData[i].roomName;
+                    var bTime = orderData[i].bTime;
+                    var amount = orderData[i].amount;
+                    var beginTime = orderData[i].beginTime;
                     var id = "\"" + orderId + "\"";
 
-                    status = status == true ? "上映" : "下映";
+
+                    switch (orderStatus) {
+                        case 1:
+                            orderStatus = "待付款";
+                            break;
+                        case 2:
+                            orderStatus = "已完成";
+                            break;
+                        case 3:
+                            orderStatus = "已关闭";
+                            break;
+                        case 4:
+                            orderStatus = "错误订单";
+                            break;
+                    }
 
                     //序号
                     var j = (currentPage - 1) * pageSize + i + 1;
@@ -154,8 +172,9 @@ function queryOrderList() {
                         "<td>" + roomName + "</td>" +
                         "<td>" + movieName + "</td>" +
                         "<td>" + new Date(beginTime).Format("yyyy-MM-dd hh:mm:ss") + "</td>" +
-                        "<td>" + price + "</td>" +
-                        "<td>" + status + "</td>" +
+                        "<td>" + seats + "</td>" +
+                        "<td>" + amount + "</td>" +
+                        "<td>" + orderStatus + "</td>" +
                         // "<td>" + info +"</td>" +
                         "<td>" +
                         "<div class='btn-group' id='toggle_switch'>" +
@@ -218,6 +237,7 @@ function infoOrder(id) {
                 var cinemaName = data.cinemaName;
                 var roomName = data.roomName;
                 var bTime = data.bTime;
+                var amount = data.amount;
 
                 $("#update_orderId").val(orderId);
                 $("#update_scheduleId option").remove();
@@ -229,6 +249,7 @@ function infoOrder(id) {
                 );
 
                 $("#update_seats").val(seats);
+                $("#update_amount").val(amount);
 
                 $("#update_orderStatus").val(orderStatus);
 
@@ -278,6 +299,7 @@ function addOrder() {
     var userId =  $("#add_userId").val();
     var seats = $("#add_seats").val();
     var orderStatus = $("#add_orderStatus").val();
+    var amount = $("#add_amount").val();
 
 
     if(scheduleId == null ||  scheduleId == "" || scheduleId == "-1") {
@@ -293,6 +315,11 @@ function addOrder() {
         return;
     }
 
+    if(amount == null || amount == "") {
+        swal("输入付款金额！", "", "error");
+        return;
+    }
+
     $.ajax({
         url: resourceUrl,
         type: "POST",
@@ -302,6 +329,7 @@ function addOrder() {
             "scheduleId" : scheduleId,
             "userId" : userId,
             "seats" : seats,
+            "amount" : amount,
             "orderStatus" : orderStatus
         }),
         success: function (result) {
@@ -335,6 +363,7 @@ function updateOrder() {
     var userId =  $("#update_userId").val();
     var seats = $("#update_seats").val();
     var orderStatus = $("#update_orderStatus").val();
+    var amount = $("#update_amount").val();
 
     if(scheduleId == null ||  scheduleId == "" || scheduleId == "-1") {
         swal("请选择排片计划！", "", "error");
@@ -354,6 +383,11 @@ function updateOrder() {
         swal("请输入选座！", "", "error");
         return;
     }
+
+    if(amount == null || amount == "") {
+        swal("请输入付款金额！", "", "error");
+        return;
+    }
     var params = "/"+orderId;
     $.ajax({
         url: resourceUrl + params,
@@ -365,6 +399,7 @@ function updateOrder() {
             "scheduleId" : scheduleId,
             "userId" : userId,
             "seats" : seats,
+            "amount" : amount,
             "orderStatus" : orderStatus
         }),
         success: function (result) {

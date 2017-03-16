@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>影厅模板管理</title>
+    <title>我的订单</title>
 
     <link rel="stylesheet" th:href="@{/dist/css/sweetalert.css}"/>
     <!-- Bootstrap 3.3.6 -->
@@ -19,10 +19,6 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" th:href="@{/dist/css/skins/_all-skins.min.css}"/>
 
-    <!-- SeatMap -->
-    <link rel="stylesheet" th:href="@{/css/seat-map.css}"/>
-
-
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -35,11 +31,10 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                影厅模板管理
+                我的订单
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 后台管理</a></li>
-                <li class="active">影厅模板管理</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> 我的订单</a></li>
             </ol>
         </section>
 
@@ -47,47 +42,29 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-12">
+                    <input type="hidden" id="currentUserId" th:value="${currentUser.userId}"/>
 
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">影厅模板列表</h3>
+                            <h3 class="box-title">订单列表</h3>
 
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <button type="button" class="btn btn-success" data-toggle="modal" href="#addTmpl" >
-                                            添加影厅模板 <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-
-                                    <div class="col-sm-1 col-sm-1 col-sm-1" style="padding-right:5px">
-                                        <h4 style="font-size:14px;" class="text-right">模板名称：</h4>
-                                    </div>
-                                    <div class="col-sm-2 col-sm-2 col-sm-2">
-                                        <input class="form-control" type="text" name="search_tmpl_name"
-                                               id="search_tmpl_name"/>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-block btn-primary" id="search_Info">查询</button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-block btn-primary" id="clear_Search"
-                                                onclick="clean()">清除
-                                        </button>
-                                    </div>
-
-                                </div>
                                 <div class="row" style="margin-top: 15px">
                                     <div class="col-sm-12">
-                                        <table id="tmpl_info" class="table table-bordered table-striped">
+                                        <table id="order_info" class="table table-bordered table-striped">
                                             <thead>
                                             <tr>
                                                 <th>编号</th>
-                                                <th>模板名称</th>
-                                                <th>座位数</th>
+                                                <th>影院</th>
+                                                <th>影厅</th>
+                                                <th>影片</th>
+                                                <th>时间</th>
+                                                <th>座位</th>
+                                                <th>价格</th>
+                                                <th>状态</th>
                                                 <th>操作</th>
                                             </tr>
                                             </thead>
@@ -149,9 +126,6 @@
                     </div>
                     <!-- /.box -->
 
-                    <div th:replace="tmpl/tmpl_add::addTmpl"></div>
-                    <div th:replace="tmpl/tmpl_update::updateTmpl"></div>
-                    <div th:replace="tmpl/seat_map::seat-map"></div>
 
                 </div>
                 <!-- /.col -->
@@ -183,24 +157,25 @@
 <!-- SlimScroll 1.3.0 -->
 <script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
 <!-- ChartJS 1.0.1 -->
-<script th:src="@{/plugins/chartjs/Chart.min.js}"></script>
-<script th:src="@{/js/tmpl.js}"></script>
-
-<script th:src="@{/js/jquery.seat-charts.js}"></script>
+<script th:src="@{/js/my_order.js}"></script>
+<script th:src="@{/js/dt.js}"></script>
 
 
 <script th:inline="javascript">
 
 
     $(function () {
-        $("#tmplManager").parents().addClass('active');
-        $("#tmplManager").addClass('active');
 
+
+        $(function () {
+            $("#myOrderManager").addClass('active');
+
+        });
 
         pageSize = $("#page_size").val();
-        $("#tmpl_info tbody tr").remove();
+        $("#order_info tbody tr").remove();
 
-        queryTmplList();
+        queryOrderList();
 
     });
 
@@ -210,7 +185,7 @@
     //点击搜索
     $("#search_Info").on("click",function(){
         currentPage = 1;
-        queryTmplList();
+        queryOrderList();
 
     });
 </script>

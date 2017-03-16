@@ -2,7 +2,6 @@ package com.mju.service.impl;
 
 import com.mju.dao.OrderDao;
 import com.mju.model.dto.PageBean;
-import com.mju.model.entity.Movie;
 import com.mju.model.entity.Order;
 import com.mju.service.OrderService;
 import com.mju.util.PageUtil;
@@ -48,14 +47,23 @@ public class OrderServiceImpl implements OrderService {
         return pageBean;
     }
 
+    @Override
+    public List<Order> queryOrderByScheduleId(Integer scheduleId) {
+        return orderDao.queryOrderByScheduleId(scheduleId);
+    }
 
     @Override
     @Transactional
-    public boolean saveOrder(Order order) {
-        order.setOrderId(UUID.randomUUID().toString().replaceAll("-",""));
+    public Order saveOrder(Order order) {
+        String orderId = UUID.randomUUID().toString().replaceAll("-", "");
+        order.setOrderId(orderId);
         order.setCreateTime(new Timestamp(System.currentTimeMillis()));
         order.setOrderStatus(1);
-        return orderDao.insertOrder(order) > 0;
+        if (orderDao.insertOrder(order) > 0) {
+            return order;
+        }else {
+            return null;
+        }
     }
 
     @Override

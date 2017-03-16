@@ -12,6 +12,8 @@ import java.util.Map;
 @Mapper
 public interface OrderDao {
 
+    List<Order> queryOrderByScheduleId(Integer scheduleId);
+
     Order selectOrderById(String orderId);
 
     List<Order> selectAllOrders();

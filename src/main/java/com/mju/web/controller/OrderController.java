@@ -46,6 +46,32 @@ public class OrderController {
         return rep;
     }
 
+    @GetMapping("/close/{orderId}")
+    public RepMessage closeOrder(@PathVariable String orderId) {
+        RepMessage rep = new RepMessage();
+        Map<String, Object> content = new HashMap<>();
+        try {
+            Order o = orderService.getOrderById(orderId);
+            if (Const.ORDER_STATUS_Y == o.getOrderStatus()) {
+                rep.setStatus(ExceptionMsg.FAILED);
+                return rep;
+            }
+
+            Order order = new Order();
+            order.setOrderId(orderId);
+            order.setOrderStatus(Const.ORDER_STATUS_C);
+            if (orderService.modifyOrderOnStatusById(order)) {
+                rep.setStatus(ExceptionMsg.SUCCESS);
+            }else {
+                rep.setStatus(ExceptionMsg.FAILED);
+            }
+
+        } catch (Exception e) {
+            rep.setStatus(ExceptionMsg.EXCEPTION);
+        }
+        return rep;
+    }
+
     @GetMapping("/{orderId}")
     public RepMessage getOrderById(@PathVariable String orderId) {
         RepMessage rep = new RepMessage();
@@ -78,7 +104,8 @@ public class OrderController {
                 rep.setRepCode(Const.FAILED);
                 rep.setRepMsg(sb.toString());
             }else {
-                if (orderService.saveOrder(order)) {
+
+                if (orderService.saveOrder(order) != null) {
                     rep.setStatus(ExceptionMsg.SUCCESS);
                 }else {
                     rep.setStatus(ExceptionMsg.FAILED);

@@ -97,7 +97,7 @@
                                                         </li>
                                                     </ul>
 
-                                                    <a href="#" class="btn btn-primary btn-block"><b>购票</b></a>
+                                                    <a sec:authorize="isAuthenticated()" th:href="'/buy/seat/'+${schedule.scheduleId}" class="btn btn-primary btn-block"><b>购票</b></a>
                                                 </div>
                                                 <!-- /.box-body -->
                                             </div>

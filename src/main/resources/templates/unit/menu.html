@@ -7,7 +7,8 @@
         <ul class="sidebar-menu">
             <li class="header">导航栏</li>
             <li id="newMovieManager"><a th:href="@{/new_movie}"><i class="fa fa-circle-o text-red"></i> <span>最新影片</span></a></li>
-            <li class="treeview"  sec:authorize="isAuthenticated()">
+            <li id="myOrderManager" sec:authorize="isAuthenticated()"><a th:href="@{/my_order}"><i class="fa fa-circle-o text-yellow"></i> <span>我的订单</span></a></li>
+            <li class="treeview" sec:authorize="hasAnyAuthority('ADMIN')" >
                 <a href="#">
                     <i class="fa fa-edit"></i> <span>后台管理</span>
                     <span class="pull-right-container">
