@@ -66,9 +66,22 @@ function queryOrderList() {
                     var id = "\"" + orderId + "\"";
 
 
+                    var option = "<div class='btn-group' id='toggle_switch'>" ;
+
+
+
+
+
                     switch (orderStatus) {
                         case 1:
                             orderStatus = "待付款";
+                            option += "<button type='button' class='btn btn-primary' style='margin-left:5px' " +
+                                "onclick=infoOrder(" + id + ")>" +
+                                "<i class='fa fa-edit'>支付</i></button>" +
+
+                                "<button type='button' class='btn  btn-danger' style='margin-left:5px' " +
+                                "onclick=closeOrder(" + id + ")>" +
+                                "<i class='fa fa-trash-o'></i>关闭订单</button>";
                             break;
                         case 2:
                             orderStatus = "已完成";
@@ -80,6 +93,7 @@ function queryOrderList() {
                             orderStatus = "错误订单";
                             break;
                     }
+                    option +="</div>";
 
                     //序号
                     var j = (currentPage - 1) * pageSize + i + 1;
@@ -95,19 +109,7 @@ function queryOrderList() {
                         "<td>" + amount + "</td>" +
                         "<td>" + orderStatus + "</td>" +
                         // "<td>" + info +"</td>" +
-                        "<td>" +
-                        "<div class='btn-group' id='toggle_switch'>" +
-
-                        "<button type='button' class='btn btn-primary' style='margin-left:5px' " +
-                        "onclick=infoOrder(" + id + ")>" +
-                        "<i class='fa fa-edit'>支付</i></button>" +
-
-                        "<button type='button' class='btn  btn-danger' style='margin-left:5px' " +
-                        "onclick=closeOrder(" + id + ")>" +
-                        "<i class='fa fa-trash-o'></i>关闭订单</button>" +
-
-                        "</div>" +
-                        "</td>" +
+                        "<td>" + option +  "</td>" +
                         "</tr>"
                     );
                 }
