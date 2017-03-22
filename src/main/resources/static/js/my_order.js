@@ -157,7 +157,7 @@ function updateOrder() {
     var amount = $("#update_amount").val();
 
     if(scheduleId == null ||  scheduleId == "" || scheduleId == "-1") {
-        swal("请选择排片计划！", "", "error");
+        swal("请选择场次计划！", "", "error");
         return;
     }
 

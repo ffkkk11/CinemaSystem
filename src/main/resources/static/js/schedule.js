@@ -315,7 +315,7 @@ function addSchedule() {
         success: function (result) {
             if (result.repCode == "1") {
                 swal({
-                        title: "排片添加成功",//排片添加成功
+                        title: "场次添加成功",//场次添加成功
                         type: "success",
                         confirmButtonText: "确定"
                     },
@@ -324,7 +324,7 @@ function addSchedule() {
                         $('#addSchedule').modal('hide');
                     });
             } else {
-                swal("排片添加失败", "", "error");//添加失败
+                swal("场次添加失败", "", "error");//添加失败
             }
 
         },
