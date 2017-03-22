@@ -6,14 +6,21 @@ import com.mju.model.dto.RepMessage;
 import com.mju.model.entity.Order;
 import com.mju.service.OrderService;
 import com.mju.util.Const;
+import com.pingplusplus.Pingpp;
+import com.pingplusplus.exception.*;
+import com.pingplusplus.model.Charge;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Hua on 2017/2/21.
@@ -24,8 +31,18 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Value("${pingpp.api.key}")
+    private String apiKey;
+
+    @Value("${pingpp.app.id}")
+    private String appId;
+
+    @Value("${pingpp.private.key}")
+    private String privateKey;
+
     @PostMapping("/query")
     public RepMessage queryOrder(@RequestBody(required = false) Map<String, Object> fields){
+
         RepMessage rep = new RepMessage();
         Map<String, Object> content = new HashMap<>();
         try {
@@ -154,5 +171,101 @@ public class OrderController {
         return rep;
     }
 
+    @GetMapping("/payment/{orderId}")
+    public RepMessage paymentSuccess(@PathVariable String orderId) {
+        RepMessage rep = new RepMessage();
+        Pingpp.apiKey = this.apiKey;
+        Pingpp.appId = this.appId;
+        Pingpp.privateKey = this.privateKey;
+        try {
+            Order order = orderService.getOrderById(orderId);
+            String chId = order.getChId();
+            if (StringUtils.isEmpty(chId)) {
+                rep.setStatus(ExceptionMsg.FAILED);
+                return rep;
+            }
+            Charge charge = null;
+            Map<String, Object> params = new HashMap<String, Object>();
+            charge = Charge.retrieve(chId, params);
+            if (!charge.getPaid()) {
+                rep.setStatus(ExceptionMsg.FAILED);
+                rep.setRepMsg("未付款");
+                return rep;
+            }
 
+            if (!order.getOrderId().equals(charge.getOrderNo())) {
+                rep.setStatus(ExceptionMsg.FAILED);
+                rep.setRepMsg("订单号错误");
+                return rep;
+            }
+            order.setOrderStatus(Const.ORDER_STATUS_Y);
+            if (orderService.modifyOrderOnStatusById(order)) {
+                rep.setStatus(ExceptionMsg.SUCCESS);
+            }else {
+                rep.setStatus(ExceptionMsg.FAILED);
+                rep.setRepMsg("数据库操作失败");
+            }
+        } catch (Exception e) {
+            rep.setStatus(ExceptionMsg.EXCEPTION);
+        }
+        return rep;
+
+    }
+
+
+
+    @PostMapping("/create/charge")
+    public RepMessage createCharge(@RequestParam(value = "orderId") String orderId,@RequestParam(value = "method",required = false) String method) {
+        Pingpp.apiKey = this.apiKey;
+        Pingpp.appId = this.appId;
+        Pingpp.privateKey = this.privateKey;
+
+        RepMessage rep = new RepMessage();
+
+        Order order = orderService.getOrderById(orderId);
+
+        if (Const.ORDER_STATUS_Y == order.getOrderStatus()) {
+            rep.setRepMsg("已付款");
+            rep.setRepCode(Const.FAILED);
+            return rep;
+        }
+
+        Charge charge = null;
+        Map<String, Object> chargeParams = new HashMap<String, Object>();
+
+        chargeParams.put("order_no", order.getOrderId());
+        chargeParams.put("amount", order.getAmount()*100);
+        Map<String, String> app = new HashMap<String, String>();
+        app.put("id", appId);
+        chargeParams.put("app", app);
+        chargeParams.put("channel", "alipay_qr");
+        chargeParams.put("client_ip", "127.0.0.1");
+        chargeParams.put("currency", "cny");
+        chargeParams.put("subject", "电影票");
+        chargeParams.put("body", order.getOrderId() + order.getUsername());
+        try {
+            charge = Charge.create(chargeParams);
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        } catch (InvalidRequestException e) {
+            e.printStackTrace();
+        } catch (APIConnectionException e) {
+            e.printStackTrace();
+        } catch (APIException e) {
+            e.printStackTrace();
+        } catch (ChannelException e) {
+            e.printStackTrace();
+        } catch (RateLimitException e) {
+            e.printStackTrace();
+        }
+        if (charge != null) {
+            orderService.modifyOrderChargeId(orderId, charge.getId());
+            rep.setContent(Collections.singletonMap("charge",charge));
+            rep.setStatus(ExceptionMsg.SUCCESS);
+        }else {
+            rep.setStatus(ExceptionMsg.FAILED);
+        }
+
+        return rep;
+    }
 }

@@ -5,7 +5,17 @@ var totalCount;//总条数
 
 var queryUrl = "/order/query";
 var resourceUrl = "/order";
+var createCharge = "/order/create/charge";
+var paymentFlag;
 
+
+//编辑订单模态层关闭事件
+$("#payMethod").on('hide.bs.modal', function () {
+    // 执行一些动作...
+    $("#pay_orderId").val("");
+    $("#qrcode").html("");
+    clearInterval(paymentFlag);
+});
 // 查询
 function queryOrderList() {
     // var searchOrderName = $("#search_order_name").val();
@@ -84,7 +94,7 @@ function queryOrderList() {
                                 "<i class='fa fa-trash-o'></i>关闭订单</button>";
                             break;
                         case 2:
-                            orderStatus = "已完成";
+                            orderStatus = "已付款";
                             break;
                         case 3:
                             orderStatus = "已关闭";
@@ -210,6 +220,7 @@ function updateOrder() {
 // 显示支付页面
 function payShow(id) {
     $("#payMethod").modal('show');
+    $("#pay_orderId").val(id);
 }
 
 // 关闭订单
@@ -234,6 +245,82 @@ function closeOrder(id) {
     });
 }
 
+//检查是否付款
+function checkPayment() {
+    var id = $("#pay_orderId").val();
+
+    if(id == null || id == "") {
+        return;
+    }
+    var params = "/"+id;
+    $.ajax({
+        url : resourceUrl +"/payment" + params,
+        type : "GET",
+        dataType : 'json',
+        success : function (result) {
+            if(result.repCode == 1){
+                swal("付款完成", "", "info");
+                $("#payMethod").modal('hide');
+                queryOrderList();
+
+            }else{
+                swal(result.repMsg, "", "error");
+            }
+        },
+        error : function () {
+            swal("网络异常，请稍后重试！", "", "error");
+        }
+    });
+}
+
+function qrPay() {
+    var orderId = $("#pay_orderId").val();
+    $.ajax({
+        url: createCharge,
+        type: "POST",
+        dataType: 'json',
+        // contentType: 'application/json',
+        data: {
+            "orderId" : orderId
+        },
+        success: function (result) {
+            if (result.repCode == "1") {
+                var alipay_qr = result.content.charge.credential.alipay_qr;
+
+                $('#qrcode').qrcode(alipay_qr);
+
+                paymentFlag = setInterval(
+                    function () {
+                        $.ajax({
+                            url : resourceUrl +"/payment/" + orderId,
+                            type : "GET",
+                            dataType : 'json',
+                            success : function (result) {
+                                if(result.repCode == 1){
+                                    clearInterval(paymentFlag);
+                                    swal("付款完成", "", "info");
+                                    $("#payMethod").modal('hide');
+                                    queryOrderList();
+                                }
+                            },
+                            error : function () {
+                            }
+                        });
+                    },1000*5
+                );
+
+
+            } else {
+                swal(result.repMsg, "", "error");//添加失败
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            swal("网络异常，请稍后重试！", "", "error");
+        }
+    });
+
+}
 
 //分页
 $("#home_page").click(function firstPage() {    // 首页

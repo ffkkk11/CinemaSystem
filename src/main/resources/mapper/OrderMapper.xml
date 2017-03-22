@@ -19,6 +19,7 @@
         <result property="status" column="status"/>
         <result property="username" column="username"/>
         <result property="amount" column="amount"/>
+        <result property="chId" column="chId"/>
     </resultMap>
 
 
@@ -103,6 +104,9 @@
         SET
          `userId` = #{userId},
          `orderStatus` = #{orderStatus},
+         <if test="chId != null ">
+             `chId` = #{chId},
+         </if>
          `seats` = #{seats},
          `scheduleId` = #{scheduleId}
         WHERE

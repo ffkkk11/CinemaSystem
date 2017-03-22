@@ -84,4 +84,13 @@ public class OrderServiceImpl implements OrderService {
     public boolean modifyOrder(Order order) {
         return orderDao.updateOrder(order) > 0;
     }
+
+    @Override
+    @Transactional
+    public boolean modifyOrderChargeId(String orderId, String chargeId) {
+        Order order = orderDao.selectOrderById(orderId);
+        order.setChId(chargeId);
+
+        return orderDao.updateOrder(order) > 0;
+    }
 }

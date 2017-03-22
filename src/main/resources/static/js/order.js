@@ -152,7 +152,7 @@ function queryOrderList() {
                             orderStatus = "待付款";
                             break;
                         case 2:
-                            orderStatus = "已完成";
+                            orderStatus = "已付款";
                             break;
                         case 3:
                             orderStatus = "已关闭";

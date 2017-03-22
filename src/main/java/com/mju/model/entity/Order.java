@@ -14,6 +14,7 @@ public class Order extends Schedule implements Serializable {
     private String seats;           //座位
     private String username;        //用户名
     private Double amount;          //总额
+    private String chId;            //chargeID
 
     public String getOrderId() {
         return orderId;
@@ -95,6 +96,28 @@ public class Order extends Schedule implements Serializable {
         this.seatMap = schedule.getSeatMap();
 
 
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId='" + orderId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", orderStatus=" + orderStatus +
+                ", createTime=" + createTime +
+                ", seats='" + seats + '\'' +
+                ", username='" + username + '\'' +
+                ", amount=" + amount +
+                '}';
+    }
+
+    public String getChId() {
+        return chId;
+    }
+
+    public Order setChId(String chId) {
+        this.chId = chId;
         return this;
     }
 }

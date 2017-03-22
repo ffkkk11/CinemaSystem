@@ -26,4 +26,5 @@ public interface OrderService {
 
     boolean modifyOrder(Order order);
 
+    boolean modifyOrderChargeId(String orderId, String chargeId);
 }
