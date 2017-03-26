@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +29,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
+
+    static {
+
+    }
+
     @Autowired
     private OrderService orderService;
 
@@ -172,7 +178,7 @@ public class OrderController {
     }
 
     @GetMapping("/payment/{orderId}")
-    public RepMessage paymentSuccess(@PathVariable String orderId) {
+    public RepMessage payment(@PathVariable String orderId) {
         RepMessage rep = new RepMessage();
         Pingpp.apiKey = this.apiKey;
         Pingpp.appId = this.appId;
@@ -181,7 +187,8 @@ public class OrderController {
             Order order = orderService.getOrderById(orderId);
             String chId = order.getChId();
             if (StringUtils.isEmpty(chId)) {
-                rep.setStatus(ExceptionMsg.FAILED);
+                rep.setRepMsg("请先选择支付方式，并完成支付！");
+                rep.setRepCode(Const.FAILED);
                 return rep;
             }
             Charge charge = null;
@@ -213,9 +220,10 @@ public class OrderController {
     }
 
 
-
     @PostMapping("/create/charge")
-    public RepMessage createCharge(@RequestParam(value = "orderId") String orderId,@RequestParam(value = "method",required = false) String method) {
+    public RepMessage createCharge(@RequestParam(value = "orderId") String orderId,@RequestParam(value = "channel",required = false) String channel,HttpServletRequest request) {
+
+
         Pingpp.apiKey = this.apiKey;
         Pingpp.appId = this.appId;
         Pingpp.privateKey = this.privateKey;
@@ -238,11 +246,26 @@ public class OrderController {
         Map<String, String> app = new HashMap<String, String>();
         app.put("id", appId);
         chargeParams.put("app", app);
-        chargeParams.put("channel", "alipay_qr");
         chargeParams.put("client_ip", "127.0.0.1");
         chargeParams.put("currency", "cny");
         chargeParams.put("subject", "电影票");
         chargeParams.put("body", order.getOrderId() + order.getUsername());
+        switch (channel) {
+            case Const.ALI_PC_CHANNEL:
+                chargeParams.put("channel", Const.ALI_PC_CHANNEL);
+                Map<String, Object> extra = new HashMap<String, Object>();
+                extra.put("success_url", "http://127.0.0.1:8080/" + request.getServletContext().getContextPath() + "/payment/" + orderId);
+                chargeParams.put("extra", extra);
+                break;
+            case Const.ALI_QR:
+                chargeParams.put("channel", Const.ALI_QR);
+                break;
+            default:
+                rep.setRepMsg("请选择渠道");
+                rep.setRepCode(Const.FAILED);
+                break;
+        }
+
         try {
             charge = Charge.create(chargeParams);
         } catch (AuthenticationException e) {
@@ -260,7 +283,17 @@ public class OrderController {
         }
         if (charge != null) {
             orderService.modifyOrderChargeId(orderId, charge.getId());
-            rep.setContent(Collections.singletonMap("charge",charge));
+
+            switch (channel) {
+                case Const.ALI_PC_CHANNEL:
+                    rep.setContent(Collections.singletonMap("charge",charge.toString()));
+                    break;
+                case Const.ALI_QR:
+                    rep.setContent(Collections.singletonMap("charge",charge));
+                    break;
+                default:
+                    break;
+            }
             rep.setStatus(ExceptionMsg.SUCCESS);
         }else {
             rep.setStatus(ExceptionMsg.FAILED);
@@ -268,4 +301,5 @@ public class OrderController {
 
         return rep;
     }
+
 }

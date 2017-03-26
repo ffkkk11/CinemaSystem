@@ -67,7 +67,7 @@ function queryOrderList() {
                     var username = orderData[i].username;
                     var movieName = orderData[i].movieName;
                     var orderStatus = orderData[i].orderStatus;
-                    var seats = orderData[i].seats;
+                    var seatsStr = orderData[i].seats;
                     var cinemaName = orderData[i].cinemaName;
                     var roomName = orderData[i].roomName;
                     var bTime = orderData[i].bTime;
@@ -75,6 +75,13 @@ function queryOrderList() {
                     var beginTime = orderData[i].beginTime;
                     var id = "\"" + orderId + "\"";
 
+                    var array1 = seatsStr.split(",");
+                    var seatsArr = new Array();
+                    for (var k =0;k<array1.length;k++) {
+                        var array2 = array1[k].split("_");
+                        seatsArr.push(array2[0] + "排" + array2[1] + "座");
+                    }
+                    var seats = seatsArr.join(",");
 
                     var option = "<div class='btn-group' id='toggle_switch'>" ;
 
@@ -281,7 +288,8 @@ function qrPay() {
         dataType: 'json',
         // contentType: 'application/json',
         data: {
-            "orderId" : orderId
+            "orderId" : orderId,
+            "channel" : "alipay_qr"
         },
         success: function (result) {
             if (result.repCode == "1") {
@@ -308,6 +316,41 @@ function qrPay() {
                         });
                     },1000*5
                 );
+
+
+            } else {
+                swal(result.repMsg, "", "error");//添加失败
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            swal("网络异常，请稍后重试！", "", "error");
+        }
+    });
+
+}
+
+function aliPay() {
+    var orderId = $("#pay_orderId").val();
+    $.ajax({
+        url: createCharge,
+        type: "POST",
+        dataType: 'json',
+        // contentType: 'application/json',
+        data: {
+            "orderId" : orderId,
+            "channel" : "alipay_pc_direct"
+        },
+        success: function (result) {
+            if (result.repCode == "1") {
+                console.log(result);
+                var charge = result.content.charge;
+                console.log(charge);
+                pingpp.createPayment(charge, function(result, err) {
+                    console.log(result);
+                    console.log(err.msg);
+                    console.log(err.extra);
+                });
 
 
             } else {

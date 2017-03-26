@@ -23,7 +23,7 @@
                                     <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
                                     <div class="info-box-content">
-                                        <button  type="button" class="btn btn-block btn-primary btn-lg">支付宝支付</button>
+                                        <button  onclick="aliPay()" type="button" class="btn btn-block btn-primary btn-lg">支付宝支付</button>
                                     </div>
                                     <!-- /.info-box-content -->
                                 </div>
@@ -41,7 +41,7 @@
                                 <!-- /.info-box -->
                             </div>
                             <div class="col-md-12">
-                                <div class="info-box">
+                                <div class="info-box" align="center">
                                     <div id="qrcode"></div>
                                     <!-- /.info-box-content -->
                                 </div>
@@ -54,7 +54,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default"
+                <button type="button" class="btn btn-primary"
                         onclick="checkPayment();" style="margin-right:10px">支付完成
                 </button>
 

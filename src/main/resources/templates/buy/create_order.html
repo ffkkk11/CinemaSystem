@@ -79,7 +79,7 @@
                                         </li>
                                     </ul>
 
-                                    <button onclick="alert('aaa')" class="btn btn-primary btn-block pull-right"><i class="fa fa-credit-card"></i>支付</button>
+                                    <button th:onclick="'payShow(\'' + ${order.orderId} + '\')'" class="btn btn-primary btn-block pull-right"><i class="fa fa-credit-card"></i>支付</button>
                                 </div>
                             </div>
 
@@ -87,7 +87,7 @@
 
                     </div>
                     <!-- /.box -->
-
+                    <div th:replace="buy/pay::payMethod"></div>
                 </div>
                 <!-- /.col -->
             </div>
@@ -120,7 +120,10 @@
 <!-- ChartJS 1.0.1 -->
 <script th:src="@{/plugins/chartjs/Chart.min.js}"></script>
 
-
+<script th:src="@{/js/jquery.qrcode.min.js}"></script>
+<script th:src="@{/js/my_order.js}"></script>
+<script th:src="@{/js/dt.js}"></script>
+<script th:src="@{/js/pingpp.js}"></script>
 
 <script th:inline="javascript">
 

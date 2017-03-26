@@ -56,7 +56,7 @@
         left join t_movie as m on s.movieId = m.movieId
         LEFT JOIN t_cinema AS c ON c.cinemaId = r.cinemaId
         LEFT JOIN t_user AS u ON u.userId = o.userId
-        where o.scheduleId = #{scheduleId}
+        where o.scheduleId = #{scheduleId} and orderStatus != 3
     </select>
 
     <select id="selectOrderById" resultMap="order" parameterType="string">

@@ -17,5 +17,9 @@ public abstract class Const {
     public static final String ROLE_USER = "USER";
     public static final String ROLE_ADMIN = "ADMIN";
 
+    public static final String ALI_PC_CHANNEL = "alipay_pc_direct";
+
+    public static final String ALI_QR = "alipay_qr";
+
 
 }

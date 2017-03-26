@@ -1,5 +1,7 @@
 package com.mju.web.controller;
 
+import com.mju.model.dto.ExceptionMsg;
+import com.mju.model.dto.RepMessage;
 import com.mju.model.entity.Order;
 import com.mju.model.entity.Schedule;
 import com.mju.model.entity.User;
@@ -7,8 +9,11 @@ import com.mju.service.OrderService;
 import com.mju.service.ScheduleService;
 import com.mju.service.UserService;
 import com.mju.util.Const;
+import com.pingplusplus.Pingpp;
+import com.pingplusplus.model.Charge;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,13 +25,24 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hua on 2017/3/2.
  */
 @Controller
 public class IndexController {
+
+    @Value("${pingpp.api.key}")
+    private String apiKey;
+
+    @Value("${pingpp.app.id}")
+    private String appId;
+
+    @Value("${pingpp.private.key}")
+    private String privateKey;
 
     @Autowired
     private ScheduleService scheduleService;
@@ -217,4 +233,37 @@ public class IndexController {
         return "/my_order";
     }
 
+    @GetMapping("/payment/{orderId}")
+    public String payment(@PathVariable String orderId,Model model) {
+        Pingpp.apiKey = this.apiKey;
+        Pingpp.appId = this.appId;
+        Pingpp.privateKey = this.privateKey;
+        try {
+            Order order = orderService.getOrderById(orderId);
+            String chId = order.getChId();
+
+            Charge charge = null;
+            Map<String, Object> params = new HashMap<String, Object>();
+            charge = Charge.retrieve(chId, params);
+            if (!charge.getPaid()) {
+                model.addAttribute("errMsg", "未付款");
+                return "/err";
+            }
+
+            if (!order.getOrderId().equals(charge.getOrderNo())) {
+                model.addAttribute("errMsg", "订单号错误");
+                return "/err";
+            }
+            order.setOrderStatus(Const.ORDER_STATUS_Y);
+            if (orderService.modifyOrderOnStatusById(order)) {
+                return "redirect:/my_order";
+            }else {
+                model.addAttribute("errMsg", "数据库操作失败");
+                return "/err";
+            }
+        } catch (Exception e) {
+            model.addAttribute("errMsg", "异常");
+            return "/err";
+        }
+    }
 }
