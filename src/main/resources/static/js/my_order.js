@@ -308,7 +308,8 @@ function qrPay() {
                                     clearInterval(paymentFlag);
                                     swal("付款完成", "", "info");
                                     $("#payMethod").modal('hide');
-                                    queryOrderList();
+                                    // queryOrderList();
+                                    window.location.href = "/my_order";
                                 }
                             },
                             error : function () {
