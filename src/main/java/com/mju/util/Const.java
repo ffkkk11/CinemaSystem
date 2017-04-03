@@ -18,7 +18,6 @@ public abstract class Const {
     public static final String ROLE_ADMIN = "ADMIN";
 
     public static final String ALI_PC_CHANNEL = "alipay_pc_direct";
-
     public static final String ALI_QR = "alipay_qr";
 
     public static final int ORDER_INVALID_TIME = 15;

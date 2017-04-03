@@ -40,7 +40,6 @@ public class ScheduledTasks {
 
     @Autowired
     private OrderDao orderDao;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
     @Scheduled(fixedRate =  30000)
     public void checkSchedule() {
@@ -50,11 +49,12 @@ public class ScheduledTasks {
             schedule.setStatus(false);
             scheduleDao.updateSchedule(schedule);
         }
-        System.out.println(sdf.format(new Date()));
     }
 
     @Scheduled(fixedRate = 30000)
     public void checkOrder() {
+        System.out.println(Const.ORDER_INVALID_TIME);
+
         List<Order> orderList = orderDao.queryInvalidOrder(Const.ORDER_INVALID_TIME);
         for (Order order : orderList) {
             order.setOrderStatus(Const.ORDER_STATUS_C);
