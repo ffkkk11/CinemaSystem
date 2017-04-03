@@ -40,16 +40,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         fields.put("perPage", perPage);
 
         List<Schedule> list = scheduleDao.querySchedule(fields);
-        Iterator<Schedule> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Schedule schedule = iterator.next();
-            Long currTime = System.currentTimeMillis();
-            Long beginTime = schedule.getBeginTime().getTime();
-            if (beginTime < currTime && schedule.getStatus()) {
-                schedule.setStatus(false);
-                scheduleDao.updateSchedule(schedule);
-            }
-        }
+//        Iterator<Schedule> iterator = list.iterator();
+//        while (iterator.hasNext()) {
+//            Schedule schedule = iterator.next();
+//            Long currTime = System.currentTimeMillis();
+//            Long beginTime = schedule.getBeginTime().getTime();
+//            if (beginTime < currTime && schedule.getStatus()) {
+//                schedule.setStatus(false);
+//                scheduleDao.updateSchedule(schedule);
+//            }
+//        }
 
 
 

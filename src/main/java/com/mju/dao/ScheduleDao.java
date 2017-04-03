@@ -20,13 +20,15 @@ public interface ScheduleDao {
 
     List<Schedule> queryNewSchedule();
 
+    List<Schedule> queryInvalidSchedule();
+
     Integer countOfSchedule(Map<String, Object> map);
 
     Integer insertSchedule(Schedule schedule);
 
     Integer deleteSchedule(Integer scheduleId);
 
-    Integer updateScheduleStatus(Integer scheduleId, Integer status);
+/*    Integer updateScheduleStatus(Integer scheduleId, Integer status);*/
 
     Integer updateSchedule(Schedule schedule);
 }

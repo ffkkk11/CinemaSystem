@@ -20,6 +20,8 @@ public interface OrderDao {
 
     List<Order> queryOrder(Map<String, Object> map);
 
+    List<Order> queryInvalidOrder(int invalidTime);
+
     Integer countOfOrder(Map<String, Object> map);
 
     Integer insertOrder(Order order);

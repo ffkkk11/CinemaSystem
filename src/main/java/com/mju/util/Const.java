@@ -21,5 +21,7 @@ public abstract class Const {
 
     public static final String ALI_QR = "alipay_qr";
 
+    public static final int ORDER_INVALID_TIME = 15;
+
 
 }
