@@ -243,7 +243,7 @@ function updateUser() {
         return;
     }
 
-    if(userName == null || userName == "") {
+    if(username == null || username == "") {
         swal("请输入用户名称！", "", "error");
         return;
     }
@@ -272,7 +272,7 @@ function updateUser() {
                         $('#updateUser').modal('hide');
                     });
             } else {
-                swal("用户更新失败", "", "error");
+                swal("用户信息更新失败", result.repMsg, "error");
             }
 
         },

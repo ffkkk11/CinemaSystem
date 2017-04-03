@@ -44,7 +44,7 @@
                 AND status = #{status}
             </if>
         </where>
-        ORDER by s.beginTime asc
+        ORDER by s.beginTime desc
         limit #{offset},#{perPage}
 
     </select>

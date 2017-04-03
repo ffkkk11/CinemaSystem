@@ -4,15 +4,14 @@ import com.mju.dao.ScheduleDao;
 import com.mju.model.dto.PageBean;
 import com.mju.model.entity.Schedule;
 import com.mju.service.ScheduleService;
+import com.mju.util.Const;
 import com.mju.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * Created by Hua on 2017/2/21.
@@ -43,6 +42,19 @@ public class ScheduleServiceImpl implements ScheduleService {
         fields.put("perPage", perPage);
 
         List<Schedule> list = scheduleDao.querySchedule(fields);
+        Iterator<Schedule> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Schedule schedule = iterator.next();
+            Long currTime = System.currentTimeMillis();
+            Long beginTime = schedule.getBeginTime().getTime();
+            if (beginTime < currTime && schedule.getStatus()) {
+                schedule.setStatus(false);
+                scheduleDao.updateSchedule(schedule);
+            }
+        }
+
+
+
         pageBean.setPageData(list);
         int count = scheduleDao.countOfSchedule(fields);
         pageBean.setTotalCount(count);

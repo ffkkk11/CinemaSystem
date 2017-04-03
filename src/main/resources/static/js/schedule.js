@@ -300,6 +300,11 @@ function addSchedule() {
         return;
     }
 
+    if(status && beginTime < new Date().getTime()) {
+        swal("影片开始时间要在当前时间之后！", "", "error");
+        return;
+    }
+
     $.ajax({
         url: resourceUrl,
         type: "POST",
@@ -362,6 +367,11 @@ function updateSchedule() {
     }
     if( movieId == null || movieId == "-1") {
         swal("请选择要播放的影片！", "", "error");
+        return;
+    }
+
+    if(status && beginTime < new Date().getTime()) {
+        swal("影片开始时间要在当前时间之后！", "", "error");
         return;
     }
     var params = "/"+scheduleId;
