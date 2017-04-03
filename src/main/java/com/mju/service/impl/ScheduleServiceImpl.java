@@ -4,13 +4,11 @@ import com.mju.dao.ScheduleDao;
 import com.mju.model.dto.PageBean;
 import com.mju.model.entity.Schedule;
 import com.mju.service.ScheduleService;
-import com.mju.util.Const;
 import com.mju.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 /**
