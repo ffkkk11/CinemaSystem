@@ -59,12 +59,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         );
 
     }
-//
-//    @Bean
-//    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
-//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//        templateEngine.setTemplateResolver(templateResolver);
-//        templateEngine.addDialect(new SpringSecurityDialect());
-//        return templateEngine;
-//    }
 }
