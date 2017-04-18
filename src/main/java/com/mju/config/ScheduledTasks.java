@@ -51,7 +51,6 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 30000)
     public void checkOrder() {
-        System.out.println(Const.ORDER_INVALID_TIME);
 
         List<Order> orderList = orderDao.queryInvalidOrder(Const.ORDER_INVALID_TIME);
         for (Order order : orderList) {

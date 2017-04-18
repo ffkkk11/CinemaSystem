@@ -17,10 +17,10 @@ public abstract class Const {
     public static final String ROLE_USER = "USER";
     public static final String ROLE_ADMIN = "ADMIN";
 
-    public static final String ALI_PC_CHANNEL = "alipay_pc_direct";
-    public static final String ALI_QR = "alipay_qr";
+    public static final String ALI_PC_CHANNEL = "alipay_pc_direct";//支付渠道，支付宝PC网页支付
+    public static final String ALI_QR = "alipay_qr";//支付渠道，支付宝扫码
 
-    public static final int ORDER_INVALID_TIME = 15;
+    public static final int ORDER_INVALID_TIME = 15;//订单失效时间
 
 
 }
