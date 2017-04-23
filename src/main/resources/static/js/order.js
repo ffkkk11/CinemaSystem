@@ -144,6 +144,7 @@ function queryOrderList() {
                     var bTime = orderData[i].bTime;
                     var amount = orderData[i].amount;
                     var beginTime = orderData[i].beginTime;
+                    var createTime = orderData[i].createTime;
                     var id = "\"" + orderId + "\"";
 
 
@@ -168,6 +169,8 @@ function queryOrderList() {
                     $("#order_info").append(
                         "<tr>" +
                         "<td>" + j + "</td>" +
+                        "<td>" + username + "</td>" +
+                        "<td>" + new Date(createTime).Format("yyyy-MM-dd hh:mm:ss") + "</td>" +
                         "<td>" + cinemaName + "</td>" +
                         "<td>" + roomName + "</td>" +
                         "<td>" + movieName + "</td>" +
@@ -176,7 +179,7 @@ function queryOrderList() {
                         "<td>" + amount + "</td>" +
                         "<td>" + orderStatus + "</td>" +
                         // "<td>" + info +"</td>" +
-                        "<td>" +
+/*                        "<td>" +
                         "<div class='btn-group' id='toggle_switch'>" +
 
                         "<button type='button' class='btn btn-primary' style='margin-left:5px' " +
@@ -188,7 +191,7 @@ function queryOrderList() {
                         "<i class='fa fa-trash-o'></i>删除</button>" +
 
                         "</div>" +
-                        "</td>" +
+                        "</td>" +*/
                         "</tr>"
                     );
                 }

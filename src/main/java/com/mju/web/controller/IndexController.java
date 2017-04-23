@@ -79,43 +79,43 @@ public class IndexController {
     @RequestMapping("/cinema_list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String cinema() {
-        return "/cinema/cinema_list";
+        return "cinema/cinema_list";
     }
 
     @RequestMapping("/tmpl_list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String tmpl() {
-        return "/tmpl/tmpl_list";
+        return "tmpl/tmpl_list";
     }
 
     @RequestMapping("/room_list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String room() {
-        return "/room/room_list";
+        return "room/room_list";
     }
 
     @RequestMapping("/movie_list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String movie() {
-        return "/movie/movie_list";
+        return "movie/movie_list";
     }
 
     @RequestMapping("/user_list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String user() {
-        return "/user/user_list";
+        return "user/user_list";
     }
 
     @RequestMapping("/schedule_list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String schedule() {
-        return "/schedule/schedule_list";
+        return "schedule/schedule_list";
     }
 
     @RequestMapping("/order_list")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String order() {
-        return "/order/order_list";
+        return "order/order_list";
     }
 
     @RequestMapping("/new_movie")
@@ -126,19 +126,19 @@ public class IndexController {
         String nowTime = sdf.format(d);
         model.addAttribute("nowTime", nowTime);
         model.addAttribute("scheduleInfo", scheduleList);
-        return "/new_movie";
+        return "new_movie";
     }
 
     @GetMapping("/register")
     public String register() {
-        return "/register";
+        return "register";
     }
 
     @PostMapping("/register")
     public String doRegister(User user,Model model) {
         if (user == null) {
             model.addAttribute("errorMsg", "请输入账号信息");
-            return "/register";
+            return "register";
         }
 
         String username = user.getUsername();
@@ -146,22 +146,22 @@ public class IndexController {
 
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             model.addAttribute("errorMsg", "账号及密码不能为空");
-            return "/register";
+            return "register";
         }
 
         User u = userService.getUserByUsername(username);
         if (u != null) {
             model.addAttribute("errorMsg", "账号已存在");
-            return "/register";
+            return "register";
         }
 
 
         user.setRole(Const.ROLE_USER);
         if (userService.saveUser(user)) {
-            return "/login";
+            return "login";
         }else {
             model.addAttribute("errorMsg", "添加失败");
-            return "/register";
+            return "register";
         }
 
 
@@ -194,7 +194,7 @@ public class IndexController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "/buy/seat";
+        return "buy/seat";
     }
 
     @RequestMapping("/buy/create_order")
@@ -219,7 +219,7 @@ public class IndexController {
         o.setSchedule(schedule);
         model.addAttribute("orderDetail", order);
 
-        return "/buy/create_order";
+        return "buy/create_order";
     }
 
     @RequestMapping("/my_order")
@@ -230,7 +230,7 @@ public class IndexController {
         if (user != null) {
             model.addAttribute("currentUser", user);
         }
-        return "/my_order";
+        return "my_order";
     }
 
     @GetMapping("/payment/{orderId}")
@@ -247,23 +247,23 @@ public class IndexController {
             charge = Charge.retrieve(chId, params);
             if (!charge.getPaid()) {
                 model.addAttribute("errMsg", "未付款");
-                return "/err";
+                return "err";
             }
 
             if (!order.getOrderId().equals(charge.getOrderNo())) {
                 model.addAttribute("errMsg", "订单号错误");
-                return "/err";
+                return "err";
             }
             order.setOrderStatus(Const.ORDER_STATUS_Y);
             if (orderService.modifyOrderOnStatusById(order)) {
                 return "redirect:/my_order";
             }else {
                 model.addAttribute("errMsg", "数据库操作失败");
-                return "/err";
+                return "err";
             }
         } catch (Exception e) {
             model.addAttribute("errMsg", "异常");
-            return "/err";
+            return "err";
         }
     }
 }

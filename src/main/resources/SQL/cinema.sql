@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50551
 File Encoding         : 65001
 
-Date: 2017-04-03 16:06:13
+Date: 2017-04-20 17:32:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,7 @@ CREATE TABLE `t_cinema` (
   `tel` varchar(20) DEFAULT NULL,
   `info` text,
   PRIMARY KEY (`cinemaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_cinema
@@ -84,37 +84,22 @@ CREATE TABLE `t_order` (
 -- ----------------------------
 -- Records of t_order
 -- ----------------------------
-INSERT INTO `t_order` VALUES ('01ddf8ab35744292b5787614797662a3', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-17 22:29:54', '1_6,1_7', '11', '22.00', 'ch_m1Kqn9rD408CirfTeHufXDm1');
-INSERT INTO `t_order` VALUES ('0e49fce48b7841a49e814d1026249b9a', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-26 22:58:34', '1_7', '10', '11.00', 'ch_1KC8O4qn90G80WT0KGPCqTW9');
-INSERT INTO `t_order` VALUES ('0ec9c4d646c146dd91e158a78b4a134f', '215fca6823d64707a96f996ee3e3d2b4', '1', '2017-03-13 23:13:44', '1_1', '8', '11.22', null);
-INSERT INTO `t_order` VALUES ('211601d4a7e04bb7b34ff43d00d6a5b4', '9fb4943bef9843afa730e4f65476cd3a', '2', '2017-03-13 00:29:18', '1_3', '10', '11.11', null);
-INSERT INTO `t_order` VALUES ('25ff02ab9af9447fb1eb93e56c996cea', '215fca6823d64707a96f996ee3e3d2b4', '1', '2017-03-13 23:11:38', '1_2,1_3', '8', '22.22', null);
-INSERT INTO `t_order` VALUES ('27f3214f90744dcaa31bc2919ce7a5de', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-17 21:45:33', '4_5,4_6', '11', '22.00', 'ch_Pi9C4SD88u98Tm1ynLeP0Wj5');
-INSERT INTO `t_order` VALUES ('27fe3dd0accc4c3a904a9559399ed649', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-26 17:48:21', '1_4', '10', '11.00', 'ch_KmLuTOXHabDOL40C08bHWrD0');
-INSERT INTO `t_order` VALUES ('35b26cdf7bdc4d96a54ecc868add6449', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-17 22:34:37', '1_8,1_9', '11', '22.00', 'ch_u5y5SGXDKaHSCyXzL4LWfD0K');
-INSERT INTO `t_order` VALUES ('3c94ff3b15884c6892d42bf8f50918ee', '60b93d4d173b431d908f9d89f15bdbda', '1', '2017-03-16 23:08:42', '2_4,2_5', '11', '22.00', null);
-INSERT INTO `t_order` VALUES ('492a4bc6f04a435bbafc49be40be33cc', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-26 23:01:23', '2_5', '8', '1133.11', 'ch_qnzXL0fbnnXD0WvPWTfnH8iT');
-INSERT INTO `t_order` VALUES ('4b32e9815dba4cbc8ffca996c02cd385', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-31 00:18:15', '6_5,6_6,6_7,6_8', '10', '44.00', 'ch_K08W5KzHmb18uzzzbHHmvbHK');
-INSERT INTO `t_order` VALUES ('67e65489567b4ca4a19511339e8d1048', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-14 23:55:43', '3_6,3_7', '11', '22.00', null);
-INSERT INTO `t_order` VALUES ('6c9049a754ae45c09bdb0adaca67d101', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-26 23:57:26', '1_10', '10', '11.00', null);
-INSERT INTO `t_order` VALUES ('739ff7af44fd4b478b0bd2dda9fcaa06', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-26 17:23:28', '4_3,4_4', '10', '22.00', null);
-INSERT INTO `t_order` VALUES ('7850cf9e90cc4197bc908d106b05931a', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-26 17:23:14', '4_5,4_6', '10', '22.00', null);
-INSERT INTO `t_order` VALUES ('7f27186e4eb74433a7e0329de88fa3e8', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-26 23:38:15', '1_9', '10', '11.00', null);
-INSERT INTO `t_order` VALUES ('8d1564379bfc4bdbb2f50d030bfdd558', '60b93d4d173b431d908f9d89f15bdbda', '1', '2017-03-13 00:28:54', '1_1', '7', '11.00', null);
-INSERT INTO `t_order` VALUES ('93209ad71c934198be6400f6ee2964be', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-26 23:00:53', '1_5', '8', '1133.11', 'ch_XHGSK0jbnbrLir50uPjPefr1');
-INSERT INTO `t_order` VALUES ('992b7910346e406bbb0bfdbae074948c', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-26 17:55:01', '1_4,1_5', '10', '22.00', 'ch_i5KavHmf9i9KrDKKiP5WDeLC');
-INSERT INTO `t_order` VALUES ('a6ba920a2ace4c5ab1ba3d5bb33e4454', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-26 22:59:23', '1_5', '8', '1133.11', null);
-INSERT INTO `t_order` VALUES ('b555af2d67ec40bbbd4cf1deecedd018', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-27 20:24:23', '1_10', '10', '11.00', 'ch_GSGWrPjXXn5KfLCiv9HmvXTC');
-INSERT INTO `t_order` VALUES ('c5cc7e252a504d0ca52dc299e7b0a35b', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-31 00:35:52', '2_7', '10', '11.00', 'ch_5aT8KSKGub18WjDi5SGiLiXL');
-INSERT INTO `t_order` VALUES ('c9a4b9619c784b929226ac036282510e', '1bd1369c4ddb4ad0976eb09298b1b3ec', '1', '2017-03-26 23:58:03', '1_9', '10', '11.00', 'ch_vTmvnLCOurHCL4u9y958a5GC');
-INSERT INTO `t_order` VALUES ('ca3f75de72a64f86a76defb34b50a710', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-22 23:37:07', '5_6,5_7', '10', '22.00', 'ch_X9O8uTa9qzf9GSuf545SyDS8');
-INSERT INTO `t_order` VALUES ('d4308a27ea9c4cd496ac61088b430df0', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-15 00:36:35', '2_6,2_7', '11', '22.00', 'ch_KCCO4Oqv1uL84Gi5C4Ku18K8');
-INSERT INTO `t_order` VALUES ('da68646274dd4333bd999d8cb5624bc8', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-17 22:00:39', '4_7,4_8', '11', '22.00', 'ch_uX9Sa1OOS8mD4m5aDC44u5qH');
-INSERT INTO `t_order` VALUES ('dc20735bbac84363a5fddf45e89d8f1f', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-19 17:17:43', '4_2,4_3', '11', '22.00', 'ch_aPezX5unLuvD8ybvjPeLqHe1');
-INSERT INTO `t_order` VALUES ('e71f5cf9d4d34e8ab4649f0b3554b652', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-26 18:00:17', '1_6', '10', '11.00', 'ch_ub5uHGibTqLK0eHebPWbHOOG');
-INSERT INTO `t_order` VALUES ('e7606eb9bb99498092fe76d53093aaf5', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-26 17:18:47', '5_4,5_5', '10', '22.00', null);
-INSERT INTO `t_order` VALUES ('e8ff4bee46dc4bdd90b991ceec98f2f4', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-03-15 00:37:36', '2_8,2_9', '11', '22.00', 'ch_j1uvz1e5eTyLmrDy5SjXPu14');
-INSERT INTO `t_order` VALUES ('fde941dc501842d5aac9277e125f20bc', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-03-26 23:00:08', '1_8', '10', '11.00', 'ch_zD0eH0GeDmTO8S40G8CSOWrH');
+INSERT INTO `t_order` VALUES ('0d0043e31a0d4c4e96f12a5d8eed303f', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-04-03 16:52:30', '1_2', '13', '12.00', null);
+INSERT INTO `t_order` VALUES ('0e6b0759da3441c28646c514cb78283f', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-14 15:48:40', '1_3', '13', '12.00', 'ch_OCeTmDn9iLeDLOGaT8fPK4K4');
+INSERT INTO `t_order` VALUES ('2586869ccf8a41e6845f0cf936186038', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-03 17:02:45', '1_1', '13', '12.00', 'ch_qLyXHSfP0KW9zjzjz5qjfrL0');
+INSERT INTO `t_order` VALUES ('5a368b8bcf264d16a2eb822ac8cc0b33', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-04-18 16:28:46', '2_4', '13', '12.00', 'ch_qvnfbHeHOK8Sennf9GLibLq5');
+INSERT INTO `t_order` VALUES ('64dce5e61a0c4228baa4980757341e60', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-18 16:29:19', '2_4', '13', '12.00', 'ch_1mr5qP9izvjDyTmvXPGKuX9K');
+INSERT INTO `t_order` VALUES ('73771599d79347d1b47faa9f3a0c9905', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-14 15:48:58', '1_5', '13', '12.00', 'ch_HeT4W94OarPCbfD0eLzLq5iL');
+INSERT INTO `t_order` VALUES ('8a23d2c546e0453a856fcae5868b4b11', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-18 16:35:47', '3_5', '13', '12.00', 'ch_rbz50OWLW9iPiXr9qD9eLizH');
+INSERT INTO `t_order` VALUES ('af896fab7eff4aaaa5a4a608733976c2', '9fb4943bef9843afa730e4f65476cd3a', '3', '2017-04-03 17:27:09', '1_2', '13', '12.00', null);
+INSERT INTO `t_order` VALUES ('be90c49379eb4b618c1c9e3b7dada64b', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-05 23:50:48', '1_2', '13', '12.00', 'ch_aHqPq9XXTunTKGCu9OrDGib9');
+INSERT INTO `t_order` VALUES ('c8645fe9e980474880b97042b3477659', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-04-05 23:30:09', '1_2,1_3', '13', '24.00', null);
+INSERT INTO `t_order` VALUES ('c9a8bf405d6f40a48d45fadad2ed8311', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-18 16:44:57', '4_4', '13', '12.00', 'ch_Tq9CyHqDOOmH8ivPW5OOWfDS');
+INSERT INTO `t_order` VALUES ('cf0f928e4b7a47d3a71ba9d9beceb553', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-04-03 16:30:07', '1_1', '13', '12.00', null);
+INSERT INTO `t_order` VALUES ('d2a6bd4a4d774ccebb05cd6b301cd85f', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-04-03 17:02:40', '1_1', '13', '12.00', 'ch_0mbXf954qDK4T8azH05KaDa9');
+INSERT INTO `t_order` VALUES ('d8b82be02ac34c86bbc7bd2973b29c28', '1bd1369c4ddb4ad0976eb09298b1b3ec', '3', '2017-04-18 16:29:12', '2_4', '13', '12.00', 'ch_HqTW18zz1SSCqvHWn5aDGCSC');
+INSERT INTO `t_order` VALUES ('eebf261e332243469d8d8902fdde598e', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-18 16:39:08', '3_4', '13', '12.00', 'ch_14iTOSWDifTCW5uzfHubrnv5');
+INSERT INTO `t_order` VALUES ('fd9714203f3844329e6b4dbfcf5adfc3', '1bd1369c4ddb4ad0976eb09298b1b3ec', '2', '2017-04-18 16:33:00', '2_5', '13', '12.00', 'ch_avLG0SXXbvb9WfDmn95qTirD');
 
 -- ----------------------------
 -- Table structure for t_room
@@ -158,16 +143,17 @@ CREATE TABLE `t_schedule` (
   KEY `movieId` (`movieId`),
   CONSTRAINT `t_schedule_ibfk_1` FOREIGN KEY (`roomId`) REFERENCES `t_room` (`roomId`),
   CONSTRAINT `t_schedule_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `t_movie` (`movieId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_schedule
 -- ----------------------------
-INSERT INTO `t_schedule` VALUES ('7', '2', '3', '2017-04-13 19:11:00', '23.00', '1');
-INSERT INTO `t_schedule` VALUES ('8', '4', '3', '2017-11-13 11:12:00', '1133.11', '1');
+INSERT INTO `t_schedule` VALUES ('7', '2', '3', '2017-04-03 16:39:00', '23.00', '0');
+INSERT INTO `t_schedule` VALUES ('8', '4', '3', '2017-11-13 11:12:00', '11.11', '1');
 INSERT INTO `t_schedule` VALUES ('10', '7', '6', '2017-08-11 11:11:00', '11.00', '1');
 INSERT INTO `t_schedule` VALUES ('11', '5', '4', '2017-03-22 22:22:00', '11.00', '0');
 INSERT INTO `t_schedule` VALUES ('12', '2', '4', '2017-04-03 11:11:00', '11.00', '0');
+INSERT INTO `t_schedule` VALUES ('13', '4', '3', '2017-05-03 11:11:00', '12.00', '1');
 
 -- ----------------------------
 -- Table structure for t_tmpl
